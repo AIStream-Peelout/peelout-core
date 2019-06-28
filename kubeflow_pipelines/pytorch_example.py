@@ -2,12 +2,19 @@
 # support this project https://github.com/CorentinJ/Real-Time-Voice-Cloning 
 import kfp
 from kfp import dsl
+from kfp import components
+
+dataflow_tf_transform_op = components.load_component_from_url('https://raw.githubusercontent.com/kubeflow/pipelines/d0aa15dfb3ff618e8cd1b03f86804ec4307fd9c2/components/dataflow/tft/component.yaml')
+kubeflow_tf_training_op  = components.load_component_from_url('https://raw.githubusercontent.com/kubeflow/pipelines/d0aa15dfb3ff618e8cd1b03f86804ec4307fd9c2/components/kubeflow/dnntrainer/component.yaml')
+dataflow_tf_predict_op   = components.load_component_from_url('https://raw.githubusercontent.com/kubeflow/pipelines/d0aa15dfb3ff618e8cd1b03f86804ec4307fd9c2/components/dataflow/predict/component.yaml')
+confusion_matrix_op      = components.load_component_from_url('https://raw.githubusercontent.com/kubeflow/pipelines/d0aa15dfb3ff618e8cd1b03f86804ec4307fd9c2/components/local/confusion_matrix/component.yaml')
+
 
 @kfp.dsl.pipeline(
   name='PyTorch example',
   description='A simple PyTorch pipeline in Kubeflow'
 )
-def voice_make(output, project,
+def make_new_voice(output, project,
     evaluation='gs://ml-pipeline-playground/flower/eval100.csv',
     train='gs://ml-pipeline-playground/flower/train200.csv',
     schema='gs://ml-pipeline-playground/flower/schema.json',
