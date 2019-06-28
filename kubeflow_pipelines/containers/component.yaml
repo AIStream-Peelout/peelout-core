@@ -1,0 +1,17 @@
+name: Do dummy work
+description: Performs some dummy work.
+inputs:
+- {name: Input 1 URI, type: GCSPath, description='GCS path to Input 1'}
+- {name: Parameter 1, type: Integer, default='100', description='Parameter 1 description'} # The default values must be specified as YAML strings.
+- {name: Output 1 URI template, type: GCSPath, description='GCS path template for Output 1'}
+outputs:
+- {name: Output 1 URI, type: GCSPath, description='GCS path for Output 1'}
+implementation:
+  container:
+    image: gcr.io/my-org/my-image@sha256:a172..752f
+    command: [
+      python3, /pipelines/component/src/program.py,
+      --input1-path,       {inputValue: Input 1 URI},
+      --param1,            {inputValue: Parameter 1},
+      --output1-path,      {inputValue: Output 1 URI template},
+      --output1-path-file, {outputPath: Output 1 URI},
