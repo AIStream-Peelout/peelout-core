@@ -7,4 +7,4 @@ ARG url
 RUN git clone https://github.com/CorentinJ/Real-Time-Voice-Cloning
 WORKDIR Real_Time_Voice_Cloning
 RUN wget -O preprocess.py  $url
-ENTRYPOINT python preprocess.py 
+ENTRYPOINT python preprocess.py

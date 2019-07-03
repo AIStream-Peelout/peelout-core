@@ -3,11 +3,11 @@
 import kfp
 from kfp import dsl
 from kfp import components
-
-encoder_predict_op = components.load_component_from_url("url")
-preprocess_text_op = components.load_component_from_url('https://raw.githubusercontent.com/kubeflow/pipelines/d0aa15dfb3ff618e8cd1b03f86804ec4307fd9c2/components/dataflow/tft/component.yaml')
-synthesizer_predict_op= components.load_component_from_url("htttps")
-vcoder_predict_op  = components.load_component_from_url('https://raw.githubusercontent.com/kubeflow/pipelines/d0aa15dfb3ff618e8cd1b03f86804ec4307fd9c2/components/kubeflow/dnntrainer/component.yaml')
+encoder_preprocess_op = omponents.load_component_from_url("url")
+encoder_train_op = components.load_component_from_url("url")
+synthesizer_preprocess_op = components.load_component_from_url('https://raw.githubusercontent.com/kubeflow/pipelines/d0aa15dfb3ff618e8cd1b03f86804ec4307fd9c2/components/dataflow/tft/component.yaml')
+synthesizer_train_op= components.load_component_from_url("htttps")
+vcoder_train_op  = components.load_component_from_url('https://raw.githubusercontent.com/kubeflow/pipelines/d0aa15dfb3ff618e8cd1b03f86804ec4307fd9c2/components/kubeflow/dnntrainer/component.yaml')
 
 @kfp.dsl.pipeline(
   name='PyTorch example',
