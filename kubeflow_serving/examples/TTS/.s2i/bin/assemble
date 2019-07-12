@@ -1,0 +1,14 @@
+#!/bin/bash
+echo "Before assembling"
+
+/s2i/bin
+
+apt-get install ffmpeg libportaudio2 openssh-server python3-pyqt5 xauth -y
+
+if [ $rc -eq 0 ]; then
+    echo "After successful assembling"
+else
+    echo "After failed assembling"
+fi
+
+exit $rc
