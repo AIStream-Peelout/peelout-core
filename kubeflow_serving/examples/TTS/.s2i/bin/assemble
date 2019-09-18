@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Before assembling"
 
-/s2i/bin
+/s2i/bin/assemble
 
 apt-get install ffmpeg libportaudio2 openssh-server python3-pyqt5 xauth -y
 
