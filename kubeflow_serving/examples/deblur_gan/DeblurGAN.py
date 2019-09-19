@@ -8,11 +8,13 @@ import torch
 import yaml
 from fire import Fire
 from tqdm import tqdm
+import torch
 
-from aug import get_normalize
+from auxillary_functions import get_normalize
 from models.networks import get_generator
+from models.fpn_inception import FPNInception
 class DeblurGAN(object):
-    def __init__(self, weights_path: str, model_name: str = ''):
+    def __init__(self, weights_path: str ="fpn_inception.h5", model_name: str = 'fpn_inception'):
         with open('config/config.yaml') as cfg:
             config = yaml.load(cfg)
         model = get_generator(model_name or config['model'])
@@ -65,4 +67,5 @@ class DeblurGAN(object):
                 inputs += [mask]
             pred = self.model(*inputs)
         return self._postprocess(pred)[:h, :w, :]
+
 

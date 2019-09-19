@@ -10,4 +10,5 @@ tqdm
 glog
 tensorboardx
 fire
+torchsummary
 # this file is not ready yet
