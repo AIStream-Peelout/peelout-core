@@ -9,7 +9,7 @@ import yaml
 from fire import Fire
 from tqdm import tqdm
 import torch
-
+import os
 from auxillary_functions import get_normalize
 from models.networks import get_generator
 from models.fpn_inception import FPNInception
@@ -17,9 +17,13 @@ class DeblurGAN(object):
     def __init__(self, weights_path: str ="fpn_inception.h5", model_name: str = 'fpn_inception'):
         with open('config/config.yaml') as cfg:
             config = yaml.load(cfg)
-        model = get_generator(model_name or config['model'])
-        model.load_state_dict(torch.load(weights_path)['model'])
-        self.model = model.cuda()
+        self.use_gpu = torch.cuda.is_available()
+        model = get_generator(model_name, config)
+        model.load_state_dict(torch.load(weights_path, map_location="cpu")['model'])
+        if self.use_gpu:
+            self.model = model.cuda()
+        else: 
+            self.model = model
         self.model.train(True)
         # GAN inference should be in train mode to use actual stats in norm layers,
         # it's not a bug
@@ -62,7 +66,10 @@ class DeblurGAN(object):
     def __call__(self, img: np.ndarray, mask: Optional[np.ndarray], ignore_mask=True) -> np.ndarray:
         (img, mask), h, w = self._preprocess(img, mask)
         with torch.no_grad():
-            inputs = [img.cuda()]
+            if self.use_gpu:
+                inputs = [img.cuda()]
+            else: 
+                inputs = [img]
             if not ignore_mask:
                 inputs += [mask]
             pred = self.model(*inputs)
